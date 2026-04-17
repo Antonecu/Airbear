@@ -68,7 +68,7 @@ void Callbacks::onWrite(BLECharacteristic *pCharacteristic)
 
 void SendMessageBLE(std::string Message)
 {
-  if(deviceConnected) 
+  if(oilDeviceConnected) 
   {
     if (BLE_LONG_STRING)                                                                 // If Fast transmission is possible
     {
