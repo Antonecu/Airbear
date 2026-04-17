@@ -55,6 +55,6 @@ extern AsyncEventSource events;
 //extern JSONVar readings_JSON;
 extern JsonDocument readings_JSON;
 
-extern bool deviceConnected;
+extern int clientCount;
 
 #endif
