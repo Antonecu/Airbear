@@ -8,11 +8,10 @@ BLEServer *pServer = NULL;
 BLECharacteristic * pTxCharacteristic;
 bool oldDeviceConnected = false;
 std::string ReceivedMessageBLE;
-
+int clientCount = 0;
 
 void initBLE(void) 
 {
-  deviceConnected = false;
   BLEDevice::init(BLE_ID);                                                                              // Create the BLE Device
   pServer = BLEDevice::createServer();                                                                  // Create the BLE Server
   pServer->setCallbacks(new ServerCallbacks());
@@ -32,12 +31,18 @@ void initBLE(void)
 
 void ServerCallbacks::onConnect(BLEServer* pServer) 
 {
-  deviceConnected = true;
-};
+    clientCount++;
+    oldDeviceConnected = true;
+    pServer->getAdvertising()->start();
+}
 
 void ServerCallbacks::onDisconnect(BLEServer* pServer) 
 {
-  deviceConnected = false;
+    clientCount--;
+    if (clientCount == 0) {
+        oldDeviceConnected = false;
+        pServer->getAdvertising()->start();
+    }
 }
 
 void Callbacks::onWrite(BLECharacteristic *pCharacteristic) 
